@@ -1,384 +1,215 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080d2b">
-<title>Bubble Night 🫧</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#101827">
+<title>Pixel Gun: 4 Player Arena</title>
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  width: 100%;
-  height: 100dvh;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 100%, #182c61 0%, transparent 55%),
-    linear-gradient(180deg, #050817, #10153b 65%, #080d2b);
-  color: white;
-  font-family: system-ui, sans-serif;
-  touch-action: manipulation;
-}
-
-#sky {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 0 6px #b8d9ff;
-  animation: twinkle var(--twinkle) ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
-@keyframes twinkle {
-  from { opacity: .2; transform: scale(.7); }
-  to { opacity: 1; transform: scale(1.5); }
-}
-
-.title {
-  position: absolute;
-  top: 10%;
-  width: 100%;
-  text-align: center;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.title h1 {
-  font-size: clamp(25px, 7vw, 36px);
-  letter-spacing: 2px;
-  text-shadow: 0 0 18px #88caff;
-}
-
-.title p {
-  margin-top: 10px;
-  color: #c6d8ff;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-.bubble {
-  position: absolute;
-  bottom: -100px;
-  border-radius: 50%;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  background:
-    radial-gradient(circle at 28% 24%,
-      rgba(255,255,255,.9) 0 2%,
-      rgba(255,255,255,.35) 5%,
-      transparent 17%),
-    radial-gradient(circle at 70% 75%,
-      rgba(116,88,255,.13),
-      transparent 48%),
-    radial-gradient(circle at 35% 35%,
-      rgba(255,255,255,.1),
-      rgba(94,218,255,.03) 55%,
-      rgba(255,144,239,.18));
-  border: 1px solid rgba(190,232,255,.72);
-  box-shadow:
-    inset -5px -7px 14px rgba(115,134,255,.15),
-    inset 4px 4px 10px rgba(255,255,255,.16),
-    0 0 12px rgba(100,199,255,.22);
-  animation: floatUp var(--duration) linear forwards;
-  z-index: 1;
-  will-change: transform, opacity;
-}
-
-.bubble::before {
-  content: "";
-  position: absolute;
-  width: 22%;
-  height: 10%;
-  top: 17%;
-  left: 20%;
-  border-radius: 50%;
-  background: rgba(255,255,255,.9);
-  filter: blur(1px);
-  transform: rotate(-35deg);
-}
-
-.bubble::after {
-  content: "";
-  position: absolute;
-  width: 9%;
-  height: 9%;
-  top: 29%;
-  left: 15%;
-  border-radius: 50%;
-  background: rgba(255,255,255,.7);
-}
-
-@keyframes floatUp {
-  0% {
-    transform: translate3d(0, 0, 0) scale(.8);
-    opacity: 0;
-  }
-  8% { opacity: .9; }
-  25% { transform: translate3d(15px, -25vh, 0) scale(1); }
-  50% { transform: translate3d(-15px, -50vh, 0) scale(.95); }
-  75% { transform: translate3d(12px, -75vh, 0) scale(1.05); }
-  90% { opacity: .8; }
-  100% {
-    transform: translate3d(-8px, -115vh, 0) scale(.9);
-    opacity: 0;
-  }
-}
-
-.bubble.popping {
-  animation: pop .18s ease-out forwards !important;
-  pointer-events: none;
-}
-
-@keyframes pop {
-  0% { transform: scale(1); opacity: 1; }
-  45% { transform: scale(1.3); opacity: .8; }
-  100% { transform: scale(1.8); opacity: 0; }
-}
-
-.spark {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #d8f7ff;
-  box-shadow: 0 0 10px #8de7ff;
-  pointer-events: none;
-  animation: sparkle .45s ease-out forwards;
-  z-index: 3;
-}
-
-@keyframes sparkle {
-  to {
-    transform: translate(var(--x), var(--y)) scale(0);
-    opacity: 0;
-  }
-}
-
-.hint {
-  position: absolute;
-  bottom: 7%;
-  width: 100%;
-  text-align: center;
-  color: #c5d8ff;
-  font-size: 12px;
-  letter-spacing: 1px;
-  opacity: .85;
-  pointer-events: none;
-}
-
-button {
-  position: absolute;
-  bottom: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4;
-  padding: 12px 23px;
-  border: 1px solid rgba(191,226,255,.65);
-  border-radius: 30px;
-  background: rgba(112,150,255,.15);
-  color: white;
-  font-size: 14px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 18px rgba(110,180,255,.15);
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-button:active {
-  background: rgba(112,150,255,.4);
-}
-
-#sky.paused .bubble {
-  animation-play-state: paused;
-}
+:root{--bg:#101827;--panel:#182337;--ink:#f4f7fb;--muted:#a8b4c8;--accent:#77f2b3}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#1c2c43,#0b111c 70%);color:var(--ink);font-family:system-ui,Arial,sans-serif}
+main{max-width:1100px;margin:auto;padding:14px}
+header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+h1{font-size:clamp(20px,4vw,32px);margin:0;letter-spacing:.3px}
+.sub{color:var(--muted);font-size:13px;margin-top:3px}
+button{background:#253650;color:white;border:1px solid #415674;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer}
+button:hover{filter:brightness(1.15)}
+#gamewrap{border:2px solid #354862;border-radius:14px;overflow:hidden;background:#17251f;box-shadow:0 18px 50px #0007}
+canvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none}
+#hud{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}
+.playercard{background:var(--panel);border:1px solid #2e405b;border-radius:11px;padding:10px;min-width:0}
+.playername{font-weight:800;font-size:13px;display:flex;gap:6px;align-items:center}
+.dot{width:9px;height:9px;border-radius:2px;display:inline-block;flex:none}
+.stat{font-size:12px;color:var(--muted);margin-top:5px}
+.ammo{height:5px;background:#0c1421;border-radius:10px;overflow:hidden;margin-top:7px}
+.ammo span{height:100%;display:block;background:var(--accent)}
+.bottom{display:grid;grid-template-columns:1.1fr 1fr;gap:10px}
+.panel{background:var(--panel);border:1px solid #2e405b;border-radius:12px;padding:12px}
+.panel h2{font-size:14px;margin:0 0 8px}
+.controls{font-size:12px;line-height:1.75;color:#d5deeb}
+kbd{display:inline-block;background:#0e1725;border:1px solid #42536b;border-radius:4px;padding:0 5px;font-family:ui-monospace,monospace;color:#fff}
+.note{font-size:12px;color:var(--muted);line-height:1.6}
+#message{font-size:13px;color:var(--accent);min-height:18px;margin:8px 2px}
+.mobile-controls{display:none;margin-top:10px;gap:8px}
+.pad{display:grid;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(2,38px);gap:4px;justify-content:center}
+.pad button{padding:4px;font-size:16px;touch-action:none}
+.mobile-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+select{background:#0e1725;color:white;border:1px solid #42536b;border-radius:8px;padding:8px}
+@media(max-width:700px){#hud{grid-template-columns:repeat(2,minmax(0,1fr))}.bottom{grid-template-columns:1fr}.mobile-controls{display:block}.sub{max-width:260px}}
 </style>
 </head>
-
 <body>
-<div id="sky">
-  <div class="title">
-    <h1>Bubble Night 🫧</h1>
-    <p>sentuh gelembungnya ✨</p>
-  </div>
-
-  <button id="toggle">❚❚ jeda gelembung</button>
-  <div class="hint">tap bubble • listen to the pop</div>
+<main>
+<header>
+  <div><h1>🎮 Pixel Gun: 4 Player Arena</h1><div class="sub">Pixel battle • 4 pemain lokal • berlindung, bidik, dan bertahan!</div></div>
+  <div style="display:flex;gap:7px;flex-wrap:wrap"><button id="restart">↻ Mulai ulang</button><button id="pause">Ⅱ Jeda</button></div>
+</header>
+<div id="gamewrap"><canvas id="game" width="960" height="600" aria-label="Arena Pixel Gun"></canvas></div>
+<div id="message">Siap bertempur! Pemain terakhir yang bertahan menang.</div>
+<section id="hud"></section>
+<div class="bottom">
+ <div class="panel"><h2>⌨️ Kontrol keyboard</h2><div class="controls">
+ <b style="color:#ff7777">P1 Rambut Merah:</b> <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> bergerak/arah tembak, <kbd>F</kbd> tembak, <kbd>G</kbd> isi ulang<br>
+ <b style="color:#76b7ff">P2 Polisi:</b> <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> arah, <kbd>/</kbd> tembak, <kbd>.</kbd> isi ulang<br>
+ <b style="color:#ffb65e">P3 Tahanan:</b> <kbd>I</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd> arah, <kbd>O</kbd> tembak, <kbd>P</kbd> isi ulang<br>
+ <b style="color:#d7bdff">P4 Koboi:</b> <kbd>8</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd> pada numpad untuk arah, <kbd>1</kbd> tembak, <kbd>2</kbd> isi ulang
+ </div></div>
+ <div class="panel"><h2>🧱 Cara bermain</h2><div class="note">• Gerakkan pemain untuk menentukan arah bidikan. Tembakan lurus ke arah terakhir yang dipilih.<br>• Setiap pemain mulai dengan 20 peluru di magasin dan 5 magasin total (100 peluru). Isi ulang menghabiskan satu magasin tambahan.<br>• Balok menghalangi gerakan dan peluru. Lingkaran cahaya menunjukkan area pandang di arena bersama ini.<br>• Kalah jika HP habis. Pemain yang tersisa terakhir menjadi pemenang.<br><br><b>Catatan:</b> ini versi lokal satu layar. Karena semua pemain memakai layar yang sama, fog of war gabungan tidak dapat merahasiakan informasi dari pemain lain sepenuhnya.</div></div>
 </div>
-
+<div class="mobile-controls panel">
+ <div class="mobile-row"><div><h2>📱 Kontrol sentuh</h2><div class="note">Pilih pemain, lalu tahan arah untuk bergerak/membidik.</div></div>
+ <select id="mobilePlayer"><option value="0">P1 Rambut Merah</option><option value="1">P2 Polisi</option><option value="2">P3 Tahanan</option><option value="3">P4 Koboi</option></select></div>
+ <div class="mobile-row" style="margin-top:10px">
+  <div class="pad">
+   <span></span><button data-dir="up">▲</button><span></span>
+   <button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button>
+  </div>
+  <div style="display:grid;gap:8px"><button id="touchShoot">🔫 TEMBAK</button><button id="touchReload">↻ ISI ULANG</button></div>
+ </div>
+</div>
+</main>
 <script>
-const sky = document.getElementById("sky");
-const toggle = document.getElementById("toggle");
-
-let paused = false;
-let audioCtx = null;
-let spawnTimer = null;
-
-// Bintang di langit
-for (let i = 0; i < 85; i++) {
-  const star = document.createElement("i");
-  star.className = "star";
-  star.style.left = Math.random() * 100 + "%";
-  star.style.top = Math.random() * 100 + "%";
-  star.style.setProperty(
-    "--twinkle",
-    (1.5 + Math.random() * 3) + "s"
-  );
-  sky.appendChild(star);
+(() => {
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+ctx.imageSmoothingEnabled=false;
+const W=canvas.width,H=canvas.height,TILE=32;
+const colors=['#ff5b5b','#62a8ff','#ffad55','#d2b4ff'];
+const names=['Rambut Merah','Polisi','Tahanan','Koboi'];
+const keys=[
+ {up:'w',down:'s',left:'a',right:'d',shoot:'f',reload:'g'},
+ {up:'arrowup',down:'arrowdown',left:'arrowleft',right:'arrowright',shoot:'/',reload:'.'},
+ {up:'i',down:'k',left:'j',right:'l',shoot:'o',reload:'p'},
+ {up:'8',down:'5',left:'4',right:'6',shoot:'1',reload:'2'}
+];
+const walls=[
+ {x:160,y:100,w:96,h:32},{x:320,y:70,w:32,h:128},{x:480,y:120,w:128,h:32},
+ {x:720,y:90,w:32,h:128},{x:90,y:270,w:128,h:32},{x:280,y:250,w:32,h:128},
+ {x:430,y:300,w:96,h:32},{x:600,y:250,w:32,h:128},{x:760,y:350,w:110,h:32},
+ {x:160,y:450,w:32,h:90},{x:360,y:460,w:128,h:32},{x:540,y:440,w:32,h:100},
+ {x:670,y:490,w:32,h:55}
+];
+let players=[],bullets=[],particles=[],running=true,gameOver=false,last=0,keysDown={};
+const starts=[{x:70,y:70},{x:850,y:70},{x:70,y:520},{x:850,y:520}];
+function reset(){
+ players=starts.map((p,i)=>({x:p.x,y:p.y,dir:i===0?'right':i===1?'left':i===2?'right':'left',hp:100,ammo:20,mags:5,alive:true,cool:0,walk:0,hit:0}));
+ bullets=[];particles=[];running=true;gameOver=false;document.getElementById('pause').textContent='Ⅱ Jeda';say('Siap bertempur! Pemain terakhir yang bertahan menang.');
 }
-
-// Audio dibuat langsung oleh browser, tanpa file suara
-function playPop() {
-  try {
-    const AudioContext =
-      window.AudioContext || window.webkitAudioContext;
-
-    if (!AudioContext) return;
-
-    if (!audioCtx) audioCtx = new AudioContext();
-
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
-    }
-
-    const now = audioCtx.currentTime;
-    const duration = 0.12;
-
-    const oscillator = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(850, now);
-    oscillator.frequency.exponentialRampToValueAtTime(
-      180, now + duration
-    );
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(
-      0.28, now + 0.008
-    );
-    gain.gain.exponentialRampToValueAtTime(
-      0.0001, now + duration
-    );
-
-    oscillator.connect(gain);
-    gain.connect(audioCtx.destination);
-    oscillator.start(now);
-    oscillator.stop(now + duration);
-  } catch (error) {
-    console.log("Audio belum tersedia", error);
-  }
+function say(s){document.getElementById('message').textContent=s}
+function rectHit(x,y,r){return walls.some(o=>x+r>o.x&&x-r<o.x+o.w&&y+r>o.y&&y-r<o.y+o.h)}
+function blocked(x,y,r){return x-r<8||y-r<8||x+r>W-8||y+r>H-8||rectHit(x,y,r)}
+function move(p,dx,dy){
+ let nx=p.x+dx,ny=p.y+dy,r=10;
+ if(!blocked(nx,p.y,r))p.x=nx;
+ if(!blocked(p.x,ny,r))p.y=ny;
 }
-
-function createSparkles(x, y) {
-  for (let i = 0; i < 8; i++) {
-    const spark = document.createElement("i");
-    spark.className = "spark";
-
-    spark.style.left = x + "px";
-    spark.style.top = y + "px";
-
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 15 + Math.random() * 35;
-
-    spark.style.setProperty(
-      "--x", Math.cos(angle) * distance + "px"
-    );
-    spark.style.setProperty(
-      "--y", Math.sin(angle) * distance + "px"
-    );
-
-    sky.appendChild(spark);
-    spark.addEventListener("animationend", () => spark.remove());
-  }
+function reload(i){let p=players[i];if(!p.alive)return;if(p.ammo===20){say('P'+(i+1)+' magasin masih penuh.');return}if(p.mags<=1){say('P'+(i+1)+' kehabisan magasin!');return}p.mags--;p.ammo=20;say('P'+(i+1)+' mengisi ulang. Magasin tersisa: '+p.mags);}
+function shoot(i){
+ const p=players[i];if(!p.alive||p.cool>0||gameOver)return;
+ if(p.ammo<=0){say('P'+(i+1)+' kosong! Tekan tombol isi ulang.');p.cool=0.25;return}
+ p.ammo--;p.cool=.28;
+ const d={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[p.dir];
+ bullets.push({x:p.x+d[0]*14,y:p.y+d[1]*14,dx:d[0]*7,dy:d[1]*7,owner:i,life:1.4});
+ for(let k=0;k<4;k++)particles.push({x:p.x+d[0]*15,y:p.y+d[1]*15,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,life:.12,color:'#ffe7a0'});
 }
-
-function popBubble(bubble, event) {
-  if (bubble.classList.contains("popping")) return;
-
-  // Bangunkan audio saat ada sentuhan pengguna
-  playPop();
-
-  const rect = bubble.getBoundingClientRect();
-  const x = event && event.clientX
-    ? event.clientX : rect.left + rect.width / 2;
-  const y = event && event.clientY
-    ? event.clientY : rect.top + rect.height / 2;
-
-  createSparkles(x, y);
-  bubble.classList.add("popping");
-
-  setTimeout(() => bubble.remove(), 200);
+function update(dt){
+ if(!running||gameOver)return;
+ players.forEach((p,i)=>{
+  p.cool=Math.max(0,p.cool-dt);p.hit=Math.max(0,p.hit-dt);
+  if(!p.alive)return;
+  const k=keys[i];let dx=0,dy=0;
+  if(keysDown[k.up]){dy=-1;p.dir='up'}else if(keysDown[k.down]){dy=1;p.dir='down'}
+  if(keysDown[k.left]){dx=-1;p.dir='left'}else if(keysDown[k.right]){dx=1;p.dir='right'}
+  if(dx&&dy){dx*=.707;dy*=.707}
+  if(dx||dy){move(p,dx*2.1,dy*2.1);p.walk+=dt*12}
+ });
+ bullets.forEach(b=>{
+  b.x+=b.dx;b.y+=b.dy;b.life-=dt;
+  if(b.x<0||b.y<0||b.x>W||b.y>H||walls.some(o=>b.x>o.x&&b.x<o.x+o.w&&b.y>o.y&&b.y<o.y+o.h))b.life=0;
+  players.forEach((p,i)=>{if(i===b.owner||!p.alive||b.life<=0)return;if(Math.hypot(p.x-b.x,p.y-b.y)<12){p.hp-=25;p.hit=.14;b.life=0;for(let n=0;n<5;n++)particles.push({x:b.x,y:b.y,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3,life:.25,color:colors[i]});if(p.hp<=0){p.hp=0;p.alive=false;say('P'+(i+1)+' tersingkir!');}}});
+ });
+ bullets=bullets.filter(b=>b.life>0);
+ particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.life-=dt});particles=particles.filter(p=>p.life>0);
+ const alive=players.map((p,i)=>p.alive?i:-1).filter(i=>i>=0);
+ if(alive.length<=1){gameOver=true;say(alive.length?'🏆 P'+(alive[0]+1)+' '+names[alive[0]]+' menang! Tekan Mulai ulang untuk bermain lagi.':'Seri! Semua pemain tersingkir.');}
+ renderHUD();
 }
-
-function createBubble() {
-  if (paused) return;
-
-  // Jaga jumlah gelembung tetap sedang
-  if (sky.querySelectorAll(".bubble").length >= 14) return;
-
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-
-  const size = 28 + Math.random() * 48;
-  const duration = 7 + Math.random() * 6;
-
-  bubble.style.width = size + "px";
-  bubble.style.height = size + "px";
-  bubble.style.left =
-    (Math.random() * (window.innerWidth - size)) + "px";
-
-  bubble.style.setProperty("--duration", duration + "s");
-
-  sky.appendChild(bubble);
-
-  bubble.addEventListener("pointerdown", event => {
-    event.preventDefault();
-    popBubble(bubble, event);
-  });
-
-  bubble.addEventListener("animationend", event => {
-    if (event.animationName === "floatUp") bubble.remove();
-  });
+function drawCharacter(p,i){
+ if(!p.alive)return;
+ const x=Math.round(p.x),y=Math.round(p.y),step=Math.floor(p.walk)%2;
+ ctx.save();ctx.translate(x,y);
+ // shadow
+ ctx.fillStyle='#08100dcc';ctx.fillRect(-10,7,21,6);
+ // feet and trousers
+ ctx.fillStyle=i===0?'#356ca4':i===1?'#253b69':i===2?'#e8792d':'#765037';
+ ctx.fillRect(-8,-1,6,12);ctx.fillRect(2,-1,6,12);
+ if(step){ctx.fillRect(-9,8,7,3);ctx.fillRect(3,8,7,3)}
+ // torso / uniform
+ ctx.fillStyle=i===0?'#2eae68':i===1?'#2d5fb1':i===2?'#ff8b3d':'#98643e';
+ ctx.fillRect(-9,-13,18,15);
+ if(i===1){ctx.fillStyle='#e7edf7';ctx.fillRect(-2,-12,4,12);ctx.fillStyle='#f5d45f';ctx.fillRect(-3,-4,6,3)}
+ if(i===2){ctx.fillStyle='#f8d9b8';ctx.fillRect(-4,-8,8,4)}
+ if(i===3){ctx.fillStyle='#e5bc73';ctx.fillRect(-11,-13,22,3);ctx.fillRect(-7,-17,14,5)}
+ // head
+ ctx.fillStyle='#e6ad83';ctx.fillRect(-6,-23,12,11);
+ if(i===0){ctx.fillStyle='#d83b38';ctx.fillRect(-7,-26,14,5);ctx.fillRect(-6,-22,3,3)}
+ if(i===1){ctx.fillStyle='#203d71';ctx.fillRect(-7,-27,14,5);ctx.fillRect(-9,-23,18,2)}
+ if(i===2){ctx.fillStyle='#ff8b3d';ctx.fillRect(-7,-26,14,4)}
+ if(i===3){ctx.fillStyle='#80522f';ctx.fillRect(-8,-27,16,4);ctx.fillRect(-11,-24,22,2)}
+ // face direction / eyes
+ ctx.fillStyle='#392a28';
+ if(p.dir==='left'){ctx.fillRect(-5,-19,2,2)}else if(p.dir==='right'){ctx.fillRect(3,-19,2,2)}else{ctx.fillRect(-4,-20,2,2);ctx.fillRect(2,-20,2,2)}
+ // gun points in direction
+ ctx.fillStyle='#171d27';
+ if(p.dir==='up')ctx.fillRect(-3,-31,6,12);
+ if(p.dir==='down')ctx.fillRect(-3,-5,6,12);
+ if(p.dir==='left')ctx.fillRect(-17,-11,12,5);
+ if(p.dir==='right')ctx.fillRect(5,-11,12,5);
+ // hit flash
+ if(p.hit>0){ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.strokeRect(-12,-29,24,43)}
+ ctx.restore();
+ // name + health bar
+ ctx.fillStyle='#0b111dcc';ctx.fillRect(x-22,y-39,44,5);
+ ctx.fillStyle=p.hp>50?'#70f0a4':p.hp>25?'#ffd36e':'#ff6565';ctx.fillRect(x-21,y-38,42*p.hp/100,3);
+ ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText('P'+(i+1),x,y-43);
 }
-
-function startBubbles() {
-  clearInterval(spawnTimer);
-  spawnTimer = setInterval(createBubble, 550);
+function render(){
+ ctx.clearRect(0,0,W,H);
+ // grass pixel grid
+ ctx.fillStyle='#284737';ctx.fillRect(0,0,W,H);
+ for(let y=0;y<H;y+=16)for(let x=0;x<W;x+=16){if(((x*7+y*13)%5)===0){ctx.fillStyle='#315440';ctx.fillRect(x,y,4,3)}}
+ // arena border
+ ctx.strokeStyle='#66836b';ctx.lineWidth=8;ctx.strokeRect(4,4,W-8,H-8);
+ // obstacles with pixel bevel
+ walls.forEach(o=>{ctx.fillStyle='#111a25';ctx.fillRect(o.x+3,o.y+4,o.w,o.h);ctx.fillStyle='#687587';ctx.fillRect(o.x,o.y,o.w,o.h);ctx.fillStyle='#8997a6';ctx.fillRect(o.x,o.y,o.w,5);ctx.fillStyle='#465365';ctx.fillRect(o.x,o.y+o.h-5,o.w,5);for(let bx=o.x+8;bx<o.x+o.w;bx+=16){ctx.fillStyle='#566476';ctx.fillRect(bx,o.y+8,3,3)}});
+ // vision mask: shared screen reveals union of all surviving players' vision
+ ctx.save();ctx.fillStyle='rgba(4,8,17,.83)';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='destination-out';
+ players.forEach(p=>{if(!p.alive)return;const g=ctx.createRadialGradient(p.x,p.y,25,p.x,p.y,155);g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(.72,'rgba(0,0,0,.95)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,155,0,Math.PI*2);ctx.fill()});
+ ctx.restore();
+ bullets.forEach(b=>{ctx.fillStyle='#ffe68a';ctx.fillRect(Math.round(b.x)-3,Math.round(b.y)-3,6,6);ctx.fillStyle='#fff7d0';ctx.fillRect(Math.round(b.x)-1,Math.round(b.y)-1,3,3)});
+ particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/.25);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,3,3)});ctx.globalAlpha=1;
+ players.forEach(drawCharacter);
+ if(!running){ctx.fillStyle='#050912aa';ctx.fillRect(0,0,W,H);ctx.fillStyle='white';ctx.font='bold 36px monospace';ctx.textAlign='center';ctx.fillText('JEDA',W/2,H/2)}
+ if(gameOver){ctx.fillStyle='#050912aa';ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff';ctx.font='bold 25px monospace';ctx.textAlign='center';ctx.fillText('PERTEMPURAN SELESAI',W/2,H/2-10);ctx.font='16px monospace';ctx.fillText('Tekan MULAI ULANG',W/2,H/2+22)}
 }
-
-toggle.addEventListener("click", () => {
-  paused = !paused;
-  sky.classList.toggle("paused", paused);
-
-  toggle.textContent = paused
-    ? "▶ lanjutkan gelembung"
-    : "❚❚ jeda gelembung";
-
-  if (!paused) createBubble();
+function renderHUD(){
+ document.getElementById('hud').innerHTML=players.map((p,i)=>`<div class="playercard"><div class="playername"><span class="dot" style="background:${colors[i]}"></span>P${i+1} ${names[i]} ${p.alive?'':'☠️'}</div><div class="stat">HP ${p.hp}/100 · Peluru ${p.ammo}/20</div><div class="ammo"><span style="width:${p.hp}%;background:${p.hp>50?'#77f2b3':p.hp>25?'#ffd36e':'#ff6868'}"></span></div><div class="stat">Magasin tersisa: ${p.mags} · ${p.alive?'Bertahan':'Tersingkir'}</div></div>`).join('');
+}
+function frame(t){let dt=Math.min((t-last)/1000||0,.04);last=t;update(dt);render();requestAnimationFrame(frame)}
+window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();if(!keysDown[k]){keysDown[k]=true;keys.forEach((c,i)=>{if(k===c.shoot)shoot(i);if(k===c.reload)reload(i)})}});
+window.addEventListener('keyup',e=>{keysDown[e.key.toLowerCase()]=false});
+document.getElementById('restart').addEventListener('click',reset);
+document.getElementById('pause').addEventListener('click',()=>{running=!running;document.getElementById('pause').textContent=running?'Ⅱ Jeda':'▶ Lanjut';say(running?'Permainan dilanjutkan.':'Permainan dijeda.')});
+const touchDirs={up:['up'],down:['down'],left:['left'],right:['right']};
+document.querySelectorAll('[data-dir]').forEach(btn=>{
+ const start=e=>{e.preventDefault();const i=+document.getElementById('mobilePlayer').value;keysDown[keys[i][btn.dataset.dir]]=true};
+ const stop=e=>{e.preventDefault();const i=+document.getElementById('mobilePlayer').value;keysDown[keys[i][btn.dataset.dir]]=false};
+ btn.addEventListener('pointerdown',start);btn.addEventListener('pointerup',stop);btn.addEventListener('pointerleave',stop);btn.addEventListener('pointercancel',stop);
 });
-
-startBubbles();
-
-// Beberapa gelembung langsung muncul saat halaman dibuka
-for (let i = 0; i < 8; i++) {
-  setTimeout(createBubble, i * 250);
-}
+document.getElementById('touchShoot').addEventListener('pointerdown',e=>{e.preventDefault();shoot(+document.getElementById('mobilePlayer').value)});
+document.getElementById('touchReload').addEventListener('click',()=>reload(+document.getElementById('mobilePlayer').value));
+reset();renderHUD();requestAnimationFrame(frame);
+})();
 </script>
 </body>
 </html>
